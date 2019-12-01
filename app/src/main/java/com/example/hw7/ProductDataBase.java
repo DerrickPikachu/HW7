@@ -2,9 +2,12 @@ package com.example.hw7;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 
 /*
 TODO
@@ -22,23 +25,37 @@ public class ProductDataBase {
                                             "name VARCHAR(32), " +
                                             "price INTEGER)";
 
-    private ProductDataBase (AppCompatActivity activity) {
+    private final String SEARCH_ALL_DATA = "SELECT * FROM " + tableName;
+
+    private ProductDataBase(AppCompatActivity activity) {
         db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL(CREATE_PRODUCT);
     }
 
-    public ProductDataBase generateDataBase(AppCompatActivity activity) {
+    public static ProductDataBase generateDataBase(AppCompatActivity activity) {
         if (productDb == null)
             productDb = new ProductDataBase(activity);
         return productDb;
     }
 
-    public void newProduct (String name, int price) {
+    public void newProduct(String name, int price) {
         ContentValues cv = new ContentValues(2);
 
         cv.put("name", name);
         cv.put("price", price);
 
         db.insert(tableName, null, cv);
+    }
+
+    public void getAllData(ArrayList<String> name, ArrayList<Integer> price) {
+        Cursor cur = db.rawQuery(SEARCH_ALL_DATA, null);
+
+        if (cur.moveToFirst()) {
+            while(!cur.isAfterLast()) {
+                name.add(cur.getString(1));
+                price.add(cur.getInt(2));
+                cur.moveToNext();
+            }
+        }
     }
 }
