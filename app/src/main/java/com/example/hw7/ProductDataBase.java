@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.SimpleCursorAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +20,9 @@ public class ProductDataBase {
     private SQLiteDatabase db;
     private static final String dbName = "Product";
     private static final String tableName = "Commodity";
+    private AppCompatActivity activity;
+
+    private final String[] FEILD = {"_id", "name", "price"};
 
     private final String CREATE_PRODUCT = "CREATE TABLE IF NOT EXISTS " + tableName +
                                             "(_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -28,6 +32,7 @@ public class ProductDataBase {
     private final String SEARCH_ALL_DATA = "SELECT * FROM " + tableName;
 
     private ProductDataBase(AppCompatActivity activity) {
+        this.activity = activity;
         db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL(CREATE_PRODUCT);
     }
@@ -47,15 +52,18 @@ public class ProductDataBase {
         db.insert(tableName, null, cv);
     }
 
-    public void getAllData(ArrayList<String> name, ArrayList<Integer> price) {
+    public SimpleCursorAdapter getAllData() {
+        int[] recourse = {R.id._id, R.id.name, R.id.price};
         Cursor cur = db.rawQuery(SEARCH_ALL_DATA, null);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(activity, R.layout.list_entry, cur, FEILD, recourse, 0);
+        return adapter;
 
-        if (cur.moveToFirst()) {
-            while(!cur.isAfterLast()) {
-                name.add(cur.getString(1));
-                price.add(cur.getInt(2));
-                cur.moveToNext();
-            }
-        }
+//        if (cur.moveToFirst()) {
+//            while(!cur.isAfterLast()) {
+//                name.add(cur.getString(1));
+//                price.add(cur.getInt(2));
+//                cur.moveToNext();
+//            }
+//        }
     }
 }
