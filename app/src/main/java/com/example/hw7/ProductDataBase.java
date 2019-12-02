@@ -53,13 +53,5 @@ public class ProductDataBase {
         Cursor cur = db.rawQuery(SEARCH_ALL_DATA, null);
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(activity, R.layout.list_entry, cur, FIELD, recourse, 0);
         return adapter;
-
-//        if (cur.moveToFirst()) {
-//            while(!cur.isAfterLast()) {
-//                name.add(cur.getString(1));
-//                price.add(cur.getInt(2));
-//                cur.moveToNext();
-//            }
-//        }
     }
 }

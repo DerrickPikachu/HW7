@@ -63,24 +63,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 target = R.drawable.madeson;
         }
 
+        nameTxv.setText("");
+        priceTxv.setText("");
+
         productDb.newProduct(name, price, target);
         show();
     }
 
     private void show() {
-//        ArrayList<String> name = new ArrayList<>();
-//        ArrayList<Integer> price = new ArrayList<>();
-//        String tem = "";
         SimpleCursorAdapter adapter = productDb.getAllData();
         showList.setAdapter(adapter);
-
-//        for (int i=0; i<name.size(); i++) {
-//            tem = tem + name.get(i) + " " + price.get(i).toString() + "\n";
-//        }
-//
-//        showTxv.setText(tem);
-
-
     }
 
 }
