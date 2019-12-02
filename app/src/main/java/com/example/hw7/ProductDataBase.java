@@ -8,12 +8,6 @@ import android.widget.SimpleCursorAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
-/*
-TODO
-    Need test
- */
 public class ProductDataBase {
 
     private static ProductDataBase productDb;
@@ -22,12 +16,13 @@ public class ProductDataBase {
     private static final String tableName = "Commodity";
     private AppCompatActivity activity;
 
-    private final String[] FEILD = {"_id", "name", "price"};
+    private final String[] FIELD = {"_id", "name", "price", "type"};
 
     private final String CREATE_PRODUCT = "CREATE TABLE IF NOT EXISTS " + tableName +
                                             "(_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                             "name VARCHAR(32), " +
-                                            "price INTEGER)";
+                                            "price INTEGER, " +
+                                            "type INTEGER)";
 
     private final String SEARCH_ALL_DATA = "SELECT * FROM " + tableName;
 
@@ -43,19 +38,20 @@ public class ProductDataBase {
         return productDb;
     }
 
-    public void newProduct(String name, int price) {
+    public void newProduct(String name, int price, int typeId) {
         ContentValues cv = new ContentValues(2);
 
         cv.put("name", name);
         cv.put("price", price);
+        cv.put("type", typeId);
 
         db.insert(tableName, null, cv);
     }
 
     public SimpleCursorAdapter getAllData() {
-        int[] recourse = {R.id._id, R.id.name, R.id.price};
+        int[] recourse = {R.id._id, R.id.name, R.id.price, R.id.typeImage};
         Cursor cur = db.rawQuery(SEARCH_ALL_DATA, null);
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(activity, R.layout.list_entry, cur, FEILD, recourse, 0);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(activity, R.layout.list_entry, cur, FIELD, recourse, 0);
         return adapter;
 
 //        if (cur.moveToFirst()) {

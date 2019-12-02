@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView nameTxv;
     private TextView priceTxv;
     private ListView showList;
+    private Spinner typeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         priceTxv = findViewById(R.id.priceInputFeild);
         showList = findViewById(R.id.showData);
 
+        typeSpinner = findViewById(R.id.typeSpinner);
+
         show();
     }
 
@@ -42,8 +46,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         String name = nameTxv.getText().toString();
         int price = Integer.parseInt(priceTxv.getText().toString());
+        int type = typeSpinner.getSelectedItemPosition();
+        int target = 0;
 
-        productDb.newProduct(name, price);
+        switch(type) {
+            case 0:
+                target = R.drawable.drink;
+                break;
+            case 1:
+                target = R.drawable.food;
+                break;
+            case 2:
+                target = R.drawable.tools;
+                break;
+            case 3:
+                target = R.drawable.madeson;
+        }
+
+        productDb.newProduct(name, price, target);
         show();
     }
 

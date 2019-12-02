@@ -6,4 +6,11 @@
     <string name="name_hint">請輸入名稱</string>
     <string name="price_hint">請輸入價錢</string>
     <string name="add">新增</string>
+    <string name="type">種類:</string>
+    <string-array name="types">
+        <item>飲料</item>
+        <item>食物</item>
+        <item>日常用品</item>
+        <item>藥品</item>
+    </string-array>
 </resources>
